@@ -28,11 +28,6 @@ $(function(){
     });
   }
 
-  //toggle suburb view 
-  document.getElementById("menu-ui").onclick = function() { 
-    suburb.setVisible(!suburb.getVisible());
-  };  
-
   // set NZTM projection extent so OL can determine zoom level 0 extents.
   proj4.defs("EPSG:2193","+proj=tmerc +lat_0=0 +lon_0=173 +k=0.9996 +x_0=1600000 +y_0=10000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
   var projection = ol.proj.get("EPSG:2193");
@@ -62,8 +57,9 @@ $(function(){
   var matrixIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   // Use WMTS template for accessing base map
-  var urlTemplate =
-    "http://tiles-a.data-cdn.linz.govt.nz/services;key=1b85daaf8266427a9eb3f46a532cd2c7/tiles/v4/set=4702/EPSG:2193/{z}/{x}/{y}.png";
+  var urlTemplate = " http://tiles-a.data-cdn.linz.govt.nz/services;key=1b85daaf8266427a9eb3f46a532cd2c7/tiles/v4/set=4702/EPSG:2193/{TileMatrix}/{TileCol}/{TileRow}.png";
+
+    
 
   // Set raster layer
   var layer = new ol.layer.Tile({
@@ -84,7 +80,7 @@ $(function(){
     })
   });
 
-  var tsu_style = new ol.style.Style({
+  /*var tsu_style = new ol.style.Style({
     fill: new ol.style.Fill({
       color: 'rgba(0,0,0,0)'
     }),
@@ -131,7 +127,7 @@ $(function(){
   var tsunami = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'https://xycarto.github.io/wellington_tsunami_nztm/json/tsunami_nztm.geojson',
+        url: 'https://xycarto.github.io/tauranga_tsunami_nztm/json/Bay_of_Plenty_Tsunami_Evacuation_Zone_JSON.geojson',
         projection: projection
     }),
     style: function (feature) {
@@ -147,18 +143,18 @@ $(function(){
       })];
     }
   });
-
+*/
 
   //build map
   var map = new ol.Map({
     target: "map",
-    layers: [layer, tsunami],
+    layers: [layer],
     view: new ol.View({
       projection: projection,
-      center: ol.proj.transform([174.8, -41.29], "EPSG:4326", "EPSG:2193"),
+      center: ol.proj.transform([176.16667, -37.68611], "EPSG:4326", "EPSG:2193"),
       minZoom: 6,
       maxZoom: 11,
-      zoom: 9,
+      zoom: 6,
       resolutions: resolutions
     })
   });
@@ -177,7 +173,7 @@ $(function(){
     //console.log(resolution);
   
   /* FULLSCREEN   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-  function initFullscreen() {
+  /*function initFullscreen() {
     // if embedded offer fullscreen
     if (top !== self) {
       $('body').removeClass('standalone');
@@ -231,5 +227,5 @@ $(function(){
     setMinZoom();
     updateMapView();
   });
-  
+  */
 })
