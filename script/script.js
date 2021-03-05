@@ -63,7 +63,7 @@ $(function(){
 
   // Use WMTS template for accessing base map
   var urlTemplate =
-    "https://xycarto-base-maps.s3-ap-southeast-2.amazonaws.com/wellington-region-nztm-aerialdsm/tile-cache/20200302/wellington-region-nztm-aerialdsm/{TileMatrix}/{TileCol}/{TileRow}.png";
+    "http://tiles-a.data-cdn.linz.govt.nz/services;key=1b85daaf8266427a9eb3f46a532cd2c7/tiles/v4/set=4702/EPSG:2193/{z}/{x}/{y}.png";
 
   // Set raster layer
   var layer = new ol.layer.Tile({
@@ -84,17 +84,6 @@ $(function(){
     })
   });
 
-  /*var tsunami_topo = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      url: 'https://xycarto.github.io/wellington_tsunami_nztm/json/tsunami_nztm.json',
-      format: new ol.format.TopoJSON({
-        layers: ['geometries']
-      }),
-      overlaps: false,
-      style: tsu_style
-    })
-  });*/
-
   var tsu_style = new ol.style.Style({
     fill: new ol.style.Fill({
       color: 'rgba(0,0,0,0)'
@@ -107,7 +96,7 @@ $(function(){
 
   var tsunami = new ol.layer.Vector({
     source: new ol.source.Vector({
-      url: '~/xycarto-base-maps-data/wellington-region-nztm-aerialdsm/kx-wellington-region-tsunami-evacuation-zones-SHP/tsunami_nztm_topo.json',
+      url: '~/json/Bay_of_Plenty_Tsunami_Evacuation_Zone_JSON.geojson',
       format: new ol.format.TopoJSON({
         layers: ['tsunami_nztm'],
         dataProjection: projection
@@ -125,20 +114,6 @@ $(function(){
     else {return 'rgba(255, 165, 0, 0.5)'}
   }
 
-
-
-  /*var textStyle =  new ol.style.Text({
-    font: '12px Calibri,sans-serif',
-    fill: new ol.style.Fill({
-      color: '#000'
-    }),
-    label: '${Location}'
-  })*/
-
-  var getText = function(feature) {
-    var text = feature.get('suburb');
-    return text;
-};
 
   var createTextStyle = function(feature) {
     return new ol.style.Text({
@@ -173,31 +148,11 @@ $(function(){
     }
   });
 
-  var suburb = new ol.layer.Vector({
-    visible: false,
-    source: new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: 'https://xycarto.github.io/wellington_tsunami_nztm/json/suburb_boundaries.geojson',
-        projection: projection
-    }),
-    style: function (feature) {
-      //console.log(feature.getProperties()); // <== all geojson properties
-      return [new ol.style.Style({
-        stroke: new ol.style.Stroke({
-          color: 'rgba(250, 250, 250, 0.75)',
-          width: 1.25
-        }),
-        text: createTextStyle(feature),
-      })];
-    },
-    declutter: true,
-    maxResolution: 14
-  });
 
   //build map
   var map = new ol.Map({
     target: "map",
-    layers: [layer, tsunami, suburb],
+    layers: [layer, tsunami],
     view: new ol.View({
       projection: projection,
       center: ol.proj.transform([174.8, -41.29], "EPSG:4326", "EPSG:2193"),
