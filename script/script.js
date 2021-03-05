@@ -172,7 +172,7 @@ $(function(){
     //console.log(resolution);
   
   /* FULLSCREEN   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-  /*function initFullscreen() {
+ function initFullscreen() {
     // if embedded offer fullscreen
     if (top !== self) {
       $('body').removeClass('standalone');
@@ -226,5 +226,5 @@ $(function(){
     setMinZoom();
     updateMapView();
   });
-  */
+  
 })
