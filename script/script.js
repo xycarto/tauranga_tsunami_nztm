@@ -80,7 +80,7 @@ $(function(){
     })
   });
 
-  /*var tsu_style = new ol.style.Style({
+  var tsu_style = new ol.style.Style({
     fill: new ol.style.Fill({
       color: 'rgba(0,0,0,0)'
     }),
@@ -90,7 +90,7 @@ $(function(){
     })
   });
 
-  var tsunami = new ol.layer.Vector({
+  /*var tsunami = new ol.layer.Vector({
     source: new ol.source.Vector({
       url: '~/json/Bay_of_Plenty_Tsunami_Evacuation_Zone_JSON.geojson',
       format: new ol.format.TopoJSON({
@@ -100,18 +100,18 @@ $(function(){
       projection: projection
     }),
     style: tsu_style
-  });
+  });*/
   
 
   //transform color in json to rgba
-  function getRGBa(colorCode) {
-    if (colorCode === "yellow") {return 'rgba(255, 255, 0, 0.5)'}
-    else if (colorCode === "red") {return 'rgba(255, 0, 0, 0.5)'}
+  function getRGBa(Zone) {
+    if (Zone === "Yellow") {return 'rgba(255, 255, 0, 0.5)'}
+    else if (Zone === "Red") {return 'rgba(255, 0, 0, 0.5)'}
     else {return 'rgba(255, 165, 0, 0.5)'}
   }
 
 
-  var createTextStyle = function(feature) {
+  /*var createTextStyle = function(feature) {
     return new ol.style.Text({
       textAlign: 'center',
       textBaseline: 'middle',
@@ -121,7 +121,7 @@ $(function(){
       fill: new ol.style.Fill({color: 'rgba(250,250,250,1.0'}),
       stroke: new ol.style.Stroke({color: 'rgba(20,20,20,0.75)', width: 1.0})
     });
-  };
+  };*/
 
   //build json layers
   var tsunami = new ol.layer.Vector({
@@ -134,21 +134,20 @@ $(function(){
       //console.log(feature.getProperties()); // <== all geojson properties
       return [new ol.style.Style({
         fill: new ol.style.Fill({ 
-          color: getRGBa(feature.get('Col_Code')),
+          color: getRGBa(feature.get('Zone')),
         }),
         stroke: new ol.style.Stroke({
-          color: feature.get('Col_Code'),
+          color: feature.get('Zone'),
           width: 0.5
         })
       })];
     }
   });
-*/
 
   //build map
   var map = new ol.Map({
     target: "map",
-    layers: [layer],
+    layers: [layer, tsunami],
     view: new ol.View({
       projection: projection,
       center: ol.proj.transform([176.16667, -37.68611], "EPSG:4326", "EPSG:2193"),
